@@ -1,0 +1,143 @@
+/* 晨风工作台：Authentik 登录流程品牌样式 */
+body:has(ak-flow-executor) {
+  background: #0b0b0f !important;
+}
+
+body:has(ak-flow-executor)::before {
+  background: radial-gradient(ellipse 48% 55% at 35% 27%, #21152d 0%, transparent 100%),
+    radial-gradient(ellipse 40% 47% at 72% 78%, #111a2a 0%, transparent 100%), #0b0b0f !important;
+  opacity: 1 !important;
+}
+
+:host(ak-flow-executor) .pf-c-login {
+  min-height: 100dvh;
+  grid-template-columns: minmax(20px, 1fr) minmax(0, 460px) minmax(20px, 1fr);
+  grid-template-rows: 1fr auto 1fr;
+  background: transparent;
+}
+
+:host(ak-flow-executor) ak-locale-select,
+:host(ak-flow-executor) .pf-c-login__header,
+:host(ak-flow-executor) .pf-c-login__footer {
+  display: none;
+}
+
+:host(ak-flow-executor) .pf-c-login__main {
+  width: 100%;
+  max-width: 460px;
+  align-self: center;
+  border: 1px solid #2d2933;
+  border-radius: 12px;
+  background: #18181b;
+  box-shadow: 0 24px 70px #0008;
+  color: #f5f3f8;
+  overflow: hidden;
+}
+
+:host(ak-flow-executor) .pf-c-login__main-header.pf-c-brand {
+  justify-content: center;
+  padding: 28px 24px 8px;
+}
+
+:host(ak-flow-executor) .pf-c-login__main-header.pf-c-brand img {
+  display: none;
+}
+
+:host(ak-flow-executor) .pf-c-login__main-header.pf-c-brand::after {
+  content: "✦";
+  display: grid;
+  width: 60px;
+  height: 60px;
+  place-items: center;
+  border: 1px solid #43265a;
+  border-radius: 17px;
+  background: #261932;
+  color: #bd79ee;
+  font: 600 22px/1 monospace;
+}
+
+:host(ak-flow-card) .pf-c-login__main-header {
+  padding: 12px 29px 16px;
+  background: transparent;
+}
+
+:host(ak-flow-card) .pf-c-title {
+  color: #f5f3f8;
+  font-size: 21px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: .08em;
+}
+
+:host(ak-flow-card) .pf-c-login__main-body {
+  padding: 0 29px 28px;
+  background: transparent;
+  color: #d9d6df;
+}
+
+:host(ak-flow-card) .pf-c-login__main-footer {
+  border: 0;
+  background: transparent;
+  color: #96909e;
+}
+
+:host(ak-stage-identification) .pf-c-form__label,
+:host(ak-stage-identification) .pf-c-form__label-text {
+  color: #c8c3ce;
+}
+
+:host(ak-stage-identification) .pf-c-form-control,
+:host(ak-stage-identification) ak-flow-input-password .pf-c-form-control {
+  height: 48px;
+  border: 1px solid #36323d;
+  border-radius: 8px;
+  background: #0b0b0e;
+  color: #f5f3f8;
+  box-shadow: none;
+}
+
+:host(ak-stage-identification) .pf-c-form-control::placeholder {
+  color: #8d8794;
+}
+
+:host(ak-stage-identification) .pf-c-form-control:focus {
+  border-color: #a372d2;
+  box-shadow: 0 0 0 3px #a372d22a;
+}
+
+:host(ak-stage-identification) .pf-c-button.pf-m-primary {
+  min-height: 48px;
+  border-radius: 8px;
+  background: #315b9a;
+  color: transparent;
+  font-size: 0;
+  box-shadow: none;
+}
+
+:host(ak-stage-identification) .pf-c-button.pf-m-primary::after {
+  content: "登录";
+  color: #f5f7ff;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+:host(ak-stage-identification) .pf-c-button.pf-m-primary:hover {
+  background: #416daf;
+}
+
+:host(ak-stage-identification) .pf-c-login__main-footer-band {
+  border: 0;
+  background: transparent;
+  color: #96909e;
+  text-align: center;
+}
+
+:host(ak-stage-identification) .pf-c-login__main-footer-band a {
+  color: #6ca3ee;
+}
+
+@media (max-width: 520px) {
+  :host(ak-flow-executor) .pf-c-login__main {
+    margin: 20px 0;
+  }
+}

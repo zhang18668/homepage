@@ -1,8 +1,9 @@
-import classNames from "classnames";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { BiShieldQuarter } from "react-icons/bi";
+import { BiHide, BiLockAlt, BiShieldQuarter, BiShow } from "react-icons/bi";
+
+import styles from "./signin.module.css";
 
 import { getSettings } from "utils/config/config";
 
@@ -13,9 +14,9 @@ const AUTO_LOGIN_RETRY_MS = 10000;
 export default function SignIn({ providers, settings, autoLogin }) {
   const router = useRouter();
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const theme = settings?.theme || "dark";
   const color = settings?.color || "slate";
-  const title = settings?.title || "Homepage";
   const callbackUrl = useMemo(() => {
     const value = router.query?.callbackUrl;
     return typeof value === "string" ? value : "/";
@@ -54,9 +55,6 @@ export default function SignIn({ providers, settings, autoLogin }) {
 
   let backgroundImage = "";
   let opacity = settings?.backgroundOpacity ?? 0;
-  let backgroundBlur = false;
-  let backgroundSaturate = false;
-  let backgroundBrightness = false;
 
   if (settings?.background) {
     const bg = settings.background;
@@ -65,9 +63,6 @@ export default function SignIn({ providers, settings, autoLogin }) {
       if (bg.opacity !== undefined) {
         opacity = 1 - bg.opacity / 100;
       }
-      backgroundBlur = bg.blur !== undefined;
-      backgroundSaturate = bg.saturate !== undefined;
-      backgroundBrightness = bg.brightness !== undefined;
     } else {
       backgroundImage = bg;
     }
@@ -97,47 +92,9 @@ export default function SignIn({ providers, settings, autoLogin }) {
     body.style.backgroundAttachment = "";
   }, [color, theme]);
 
-  if (!providers || Object.keys(providers).length === 0) {
-    return (
-      <>
-        {backgroundImage && (
-          <div
-            id="background"
-            aria-hidden="true"
-            style={{
-              backgroundImage: `linear-gradient(rgb(var(--bg-color) / ${opacity}), rgb(var(--bg-color) / ${opacity})), url('${backgroundImage}')`,
-            }}
-          />
-        )}
-        <main
-          className={classNames(
-            "relative flex min-h-screen items-center justify-center px-6 py-12",
-            backgroundBlur &&
-              `backdrop-blur${settings?.background?.blur?.length ? `-${settings.background.blur}` : ""}`,
-            backgroundSaturate && `backdrop-saturate-${settings.background.saturate}`,
-            backgroundBrightness && `backdrop-brightness-${settings.background.brightness}`,
-          )}
-        >
-          <div className="relative w-full max-w-xl overflow-hidden rounded-3xl border border-white/40 bg-white/80 p-10 text-center shadow-2xl shadow-black/10 dark:border-white/10 dark:bg-slate-900/70">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-r from-theme-500/20 via-theme-500/5 to-transparent"
-            />
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-theme-500/15 text-theme-600 dark:text-theme-300">
-              <BiShieldQuarter className="h-6 w-6" />
-            </div>
-            <h1 className="mt-6 text-2xl font-semibold text-gray-900 dark:text-slate-100">Authentication error</h1>
-            <p className="mt-3 text-sm text-gray-600 dark:text-slate-400">Auth is disabled or misconfigured.</p>
-          </div>
-        </main>
-      </>
-    );
-  }
-
-  const passwordProvider = providers
-    ? Object.values(providers).find((provider) => provider.type === "credentials")
-    : null;
-  const hasPasswordProvider = Boolean(passwordProvider);
+  const providerList = Object.values(providers ?? {});
+  const passwordProvider = providerList.find((provider) => provider.type === "credentials");
+  const externalProviders = providerList.filter((provider) => provider.type !== "credentials");
 
   return (
     <>
@@ -150,87 +107,87 @@ export default function SignIn({ providers, settings, autoLogin }) {
           }}
         />
       )}
-      <main className="relative flex min-h-screen items-center justify-center px-6 py-12">
-        <div
-          className={classNames(
-            "relative w-full max-w-4xl overflow-hidden rounded-3xl border border-white/50 bg-white/80 shadow-2xl shadow-black/10 backdrop-blur-xl dark:border-white/10 dark:bg-slate-950/70",
-            backgroundBlur &&
-              `backdrop-blur${settings?.background?.blur?.length ? `-${settings.background.blur}` : ""}`,
-            backgroundSaturate && `backdrop-saturate-${settings.background.saturate}`,
-            backgroundBrightness && `backdrop-brightness-${settings.background.brightness}`,
-          )}
-        >
-          <div className="grid gap-10 px-8 py-12 md:grid-cols-[1.2fr_1fr] md:px-12">
-            <section className="flex flex-col justify-between">
-              <div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-theme-500/30 bg-theme-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-theme-600 dark:text-theme-300">
-                  Login Required
-                </div>
-                <h1 className="mt-6 text-3xl font-semibold text-gray-900 dark:text-slate-100">{title}</h1>
-                <p className="mt-3 text-sm text-gray-600 dark:text-slate-300">Login to view your dashboard.</p>
+      <main className={styles.page}>
+        <div className={styles.ambient} aria-hidden="true" />
+        <div className={styles.content}>
+          <header className={styles.brand}>
+            <div className={styles.brandMark} aria-hidden="true">
+              <span>[</span>
+              <span className={styles.brandCore}>✦</span>
+              <span>]</span>
+            </div>
+            <h1>晨风工作台登录</h1>
+          </header>
+          <section className={styles.card} aria-label="晨风工作台登录">
+            <div className={styles.cardHeading}>
+              <div className={styles.lockMark} aria-hidden="true">
+                <BiLockAlt />
               </div>
-            </section>
-
-            <section className="flex flex-col justify-center gap-6">
-              <div className="rounded-2xl border border-white/60 bg-white/70 p-6 shadow-lg shadow-black/5 dark:border-white/10 dark:bg-slate-900/70">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-slate-100">Sign in</h2>
-                <div className="mt-6 space-y-3">
-                  {redirecting && (
-                    <p className="text-sm text-gray-600 dark:text-slate-300">
-                      Redirecting to {oidcProvider?.name}&hellip;
-                    </p>
-                  )}
-                  {!redirecting && hasPasswordProvider && (
-                    <form
-                      className="space-y-3"
-                      onSubmit={async (event) => {
-                        event.preventDefault();
-                        await signIn(passwordProvider?.id ?? "credentials", {
-                          redirect: true,
-                          callbackUrl,
-                          password,
-                        });
-                      }}
-                    >
-                      <label className="block text-sm font-medium text-gray-700 dark:text-slate-300">Password</label>
+              <div>
+                <h2>登录晨风工作台</h2>
+                <p>{passwordProvider ? "输入密码以继续访问" : "使用单点登录继续访问"}</p>
+              </div>
+            </div>
+            {providerList.length === 0 ? (
+              <div className={styles.message} role="alert">
+                <BiShieldQuarter aria-hidden="true" /> 登录服务暂不可用，请联系管理员。
+              </div>
+            ) : redirecting ? (
+              <p className={styles.message}>正在跳转至单点登录服务…</p>
+            ) : (
+              <div className={styles.actions}>
+                {passwordProvider && (
+                  <form
+                    className={styles.form}
+                    onSubmit={async (event) => {
+                      event.preventDefault();
+                      await signIn(passwordProvider.id, { redirect: true, callbackUrl, password });
+                    }}
+                  >
+                    <div className={styles.passwordField}>
                       <input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         name="password"
+                        aria-label="密码"
+                        placeholder="密码"
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                         autoComplete="current-password"
-                        className="w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-gray-900 shadow-sm outline-none ring-0 transition focus:border-theme-500 focus:ring-2 focus:ring-theme-500/30 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-100"
                         required
                       />
                       <button
-                        type="submit"
-                        className="group w-full rounded-xl bg-theme-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-theme-600/20 transition hover:-translate-y-0.5 hover:bg-theme-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-theme-500"
-                      >
-                        <span className="flex items-center justify-center gap-2">Sign in &rarr;</span>
-                      </button>
-                    </form>
-                  )}
-                  {!redirecting &&
-                    !hasPasswordProvider &&
-                    Object.values(providers).map((provider) => (
-                      <button
-                        key={provider.id}
+                        className={styles.visibility}
                         type="button"
-                        onClick={() => signIn(provider.id, { callbackUrl })}
-                        className="group w-full rounded-xl bg-theme-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-theme-600/20 transition hover:-translate-y-0.5 hover:bg-theme-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-theme-500"
+                        aria-label={showPassword ? "隐藏密码" : "显示密码"}
+                        onClick={() => setShowPassword((visible) => !visible)}
                       >
-                        <span className="flex items-center justify-center gap-2">Login via {provider.name} &rarr;</span>
+                        {showPassword ? <BiHide /> : <BiShow />}
                       </button>
-                    ))}
-                </div>
-                {hasPasswordProvider && error && (
-                  <p className="mt-4 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700 dark:border-red-800/60 dark:bg-red-950/40 dark:text-red-200">
-                    Invalid password. Please try again.
+                    </div>
+                    <button className={styles.primaryButton} type="submit">
+                      登录
+                    </button>
+                  </form>
+                )}
+                {externalProviders.map((provider) => (
+                  <button
+                    key={provider.id}
+                    type="button"
+                    onClick={() => signIn(provider.id, { callbackUrl })}
+                    className={styles.primaryButton}
+                  >
+                    {externalProviders.length === 1 ? "单点登录" : `使用${provider.name}登录`}
+                  </button>
+                ))}
+                {error && (
+                  <p className={styles.error} role="alert">
+                    登录失败，请检查凭据后重试。
                   </p>
                 )}
               </div>
-            </section>
-          </div>
+            )}
+          </section>
+          <p className={styles.footer}>安全访问 · 晨风工作台</p>
         </div>
       </main>
     </>

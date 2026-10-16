@@ -1,0 +1,76 @@
+#information-widgets #homepage-user-controls {
+  display: flex;
+  width: 100%;
+  order: -1;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-bottom: 12px;
+  color: #e7e4ed;
+  font-size: 13px;
+}
+
+#homepage-user-controls .homepage-user-identity {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 9px;
+}
+
+#homepage-user-controls .homepage-user-avatar {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  place-items: center;
+  border: 1px solid #513363;
+  border-radius: 50%;
+  background: #30203e;
+  color: #d29af6;
+  font-weight: 700;
+}
+
+#homepage-user-controls .homepage-user-name {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#homepage-user-controls .homepage-user-logout {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  border: 1px solid #473751;
+  border-radius: 8px;
+  padding: 0 12px;
+  background: #211b28;
+  color: #e7e4ed;
+  text-decoration: none;
+}
+
+#homepage-user-controls .homepage-user-logout:hover {
+  border-color: #9261b8;
+  color: #fff;
+}
+
+#homepage-user-controls .homepage-user-logout:focus-visible {
+  outline: 2px solid #b987ec;
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  #information-widgets #homepage-user-controls {
+    gap: 10px;
+  }
+
+  #homepage-user-controls .homepage-user-name {
+    max-width: 100px;
+  }
+}
+body:not(.homepage-admin) section:has(a[href="https://auth.zhangzhh13.xyz/"]),
+body:not(.homepage-admin) div:has(> h2):has(a[href="https://auth.zhangzhh13.xyz/"]),
+body:not(.homepage-admin) a[href="https://auth.zhangzhh13.xyz/"] {
+  display: none;
+}
+

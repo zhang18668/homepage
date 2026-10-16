@@ -1,0 +1,187 @@
+.page {
+  position: relative;
+  display: grid;
+  min-height: 100vh;
+  min-height: 100dvh;
+  place-items: center;
+  overflow: hidden;
+  padding: 32px 20px;
+  background:
+    radial-gradient(ellipse 45% 53% at 34% 30%, #21152d 0%, transparent 100%),
+    radial-gradient(ellipse 38% 43% at 69% 77%, #111a2a 0%, transparent 100%), #0b0b0f;
+  color: #f5f3f8;
+  font-family: Inter, "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+.ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 45%, rgba(116, 56, 155, 0.055), transparent 30%);
+}
+.content {
+  position: relative;
+  width: min(100%, 460px);
+}
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+  text-align: center;
+}
+.brandMark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 68px;
+  height: 68px;
+  margin-bottom: 18px;
+  border: 1px solid #43265a;
+  border-radius: 19px;
+  background: #23172f;
+  box-shadow: 0 12px 38px #6e31a016;
+  color: #bd79ee;
+  font: 600 29px/1 monospace;
+}
+.brandCore {
+  font-size: 17px;
+}
+.brand h1 {
+  margin: 0;
+  color: #faf8fd;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.card {
+  border: 1px solid #2b2932;
+  border-radius: 12px;
+  background: #18181b;
+  padding: 29px;
+  box-shadow: 0 24px 70px #0005;
+}
+.cardHeading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 24px;
+}
+.lockMark {
+  display: grid;
+  flex: 0 0 43px;
+  height: 43px;
+  place-items: center;
+  border-radius: 11px;
+  background: #30203e;
+  color: #c486f5;
+  font-size: 25px;
+}
+.cardHeading h2 {
+  margin: 0 0 3px;
+  color: #e9e7ec;
+  font-size: 16px;
+  font-weight: 600;
+}
+.cardHeading p {
+  margin: 0;
+  color: #85818d;
+  font-size: 12px;
+}
+.actions,
+.form {
+  display: grid;
+  gap: 13px;
+}
+.passwordField {
+  position: relative;
+}
+.passwordField input {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #303038;
+  border-radius: 8px;
+  background: #0b0b0e;
+  padding: 0 46px 0 14px;
+  outline: none;
+  color: #f5f3f8;
+  font-size: 14px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.passwordField input::placeholder {
+  color: #8a8791;
+}
+.passwordField input:focus {
+  border-color: #a372d2;
+  box-shadow: 0 0 0 3px #a372d22a;
+}
+.visibility {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: grid;
+  width: 47px;
+  height: 48px;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: #97929e;
+  cursor: pointer;
+  font-size: 18px;
+}
+.visibility:hover {
+  color: #d8b1f2;
+}
+.primaryButton {
+  min-height: 48px;
+  width: 100%;
+  border: 1px solid #4267a4;
+  border-radius: 8px;
+  background: #315b9a;
+  color: #f5f7ff;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+.primaryButton:hover {
+  background: #416daf;
+  transform: translateY(-1px);
+}
+.primaryButton:focus-visible,
+.visibility:focus-visible {
+  outline: 2px solid #bb89ee;
+  outline-offset: 3px;
+}
+.message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: #bcb8c3;
+  font-size: 13px;
+}
+.error {
+  margin: 0;
+  color: #f2a1a1;
+  font-size: 13px;
+}
+.footer {
+  margin: 20px 0 0;
+  color: #696573;
+  font-size: 12px;
+  text-align: center;
+}
+@media (max-width: 480px) {
+  .card {
+    padding: 23px;
+  }
+  .brand {
+    margin-bottom: 26px;
+  }
+}

@@ -55,7 +55,7 @@ describe("pages/auth/signin", () => {
       />,
     );
 
-    expect(screen.getByText("Authentication error")).toBeInTheDocument();
+    expect(screen.getByRole("alert")).toHaveTextContent("登录服务暂不可用");
 
     await waitFor(() => {
       expect(document.documentElement.classList.contains("dark")).toBe(true);
@@ -78,8 +78,8 @@ describe("pages/auth/signin", () => {
       />,
     );
 
-    expect(screen.getByText("Sign in")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /login via oidc/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "晨风工作台登录" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "单点登录" })).toBeInTheDocument();
   });
 
   it("redirects to the provider when auto-login is enabled", () => {
@@ -88,8 +88,8 @@ describe("pages/auth/signin", () => {
     render(<SignInPage providers={OIDC_PROVIDERS} settings={SETTINGS} autoLogin />);
 
     expect(signInMock).toHaveBeenCalledWith("homepage-oidc", { callbackUrl: "/some/page" });
-    expect(screen.getByText(/redirecting to homepage oidc/i)).toBeInTheDocument();
-    expect(screen.queryByRole("button", { name: /login via/i })).not.toBeInTheDocument();
+    expect(screen.getByText(/正在跳转至单点登录服务/)).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "单点登录" })).not.toBeInTheDocument();
   });
 
   it("does not auto-login when the provider returned an error", () => {
@@ -98,7 +98,7 @@ describe("pages/auth/signin", () => {
     render(<SignInPage providers={OIDC_PROVIDERS} settings={SETTINGS} autoLogin />);
 
     expect(signInMock).not.toHaveBeenCalled();
-    expect(screen.getByRole("button", { name: /login via homepage oidc/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "单点登录" })).toBeInTheDocument();
   });
 
   it("does not auto-login when it is explicitly disabled in the url", () => {
@@ -107,7 +107,7 @@ describe("pages/auth/signin", () => {
     render(<SignInPage providers={OIDC_PROVIDERS} settings={SETTINGS} autoLogin />);
 
     expect(signInMock).not.toHaveBeenCalled();
-    expect(screen.getByRole("button", { name: /login via homepage oidc/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "单点登录" })).toBeInTheDocument();
   });
 
   it("redirects once under strict mode, rather than tripping its own loop guard", () => {
