@@ -45,6 +45,10 @@ WORKDIR /app
 COPY --link --chown=1000:1000 /public ./public/
 COPY --link --chmod=755 docker-entrypoint.sh /usr/local/bin/
 
+# Windows checkouts may provide the entrypoint with CRLF line endings. Alpine
+# interprets that as `/bin/sh\r`, so normalize it before the image is started.
+RUN sed -i 's/\r$//' /usr/local/bin/docker-entrypoint.sh
+
 # Copy only necessary files from the build stage
 COPY --link --from=builder --chown=1000:1000 /app/.next/standalone/ ./
 COPY --link --from=builder --chown=1000:1000 /app/.next/static/ ./.next/static
